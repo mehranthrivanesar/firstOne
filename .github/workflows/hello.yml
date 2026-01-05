@@ -4,10 +4,18 @@ on:
   push:
   workflow_dispatch:
 
-
 jobs:
   hello:
     runs-on: ubuntu-latest
     steps:
-      - name: Say hello
-        run: echo "Hello from GitHub Actions!"
+      - name: Checkout repo (download code)
+        uses: actions/checkout@v4
+
+      - name: Show where we are
+        run: pwd
+
+      - name: List files in the repo
+        run: ls -la
+
+      - name: Print README.md
+        run: cat README.md
