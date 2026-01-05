@@ -23,8 +23,10 @@ jobs:
     
       - name: Print inputs
         run: |
-          echo "Name: ${{ inputs.your_name }}"
-          echo "Message: ${{ inputs.message }}"
+          echo "Event: ${{ github.event_name }}"
+          echo "Name: ${{ inputs.your_name || github.actor }}"
+          echo "Message: ${{ inputs.message || 'Triggered by push (no manual inputs)' }}"
+
     
       - name: Print README title line
         run: head -n 3 README.md
