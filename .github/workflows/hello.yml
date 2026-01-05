@@ -15,19 +15,34 @@ on:
 
 
 jobs:
-  hello:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo (download code)
-        uses: actions/checkout@v4
-    
-      - name: Print inputs
+      - uses: actions/checkout@v4
+      - name: Build step (demo)
         run: |
-          echo "Event: ${{ github.event_name }}"
-          echo "Name: ${{ inputs.your_name || github.actor }}"
-          echo "Message: ${{ inputs.message || 'Triggered by push (no manual inputs)' }}"
+          echo "Building..."
+          mkdir -p out
+          echo "Built by $GITHUB_ACTOR on $(date)" > out/build.txt
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: out/build.txt
 
-    
-      - name: Print README title line
-        run: head -n 3 README.md
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: out
+      - name: Test step (demo)
+        run: |
+          echo "Testing..."
+          cat out/build.txt
+          echo "✅ Tests passed"
+
 
