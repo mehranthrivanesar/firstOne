@@ -1,0 +1,30 @@
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build step (demo)
+        run: |
+          echo "Building..."
+          mkdir -p out
+          echo "Built by $GITHUB_ACTOR on $(date)" > out/build.txt
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: out/build.txt
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: out
+      - name: Test step (demo)
+        run: |
+          echo "Testing..."
+          cat out/build.txt
+          echo "✅ Tests passed"
