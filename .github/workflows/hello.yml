@@ -3,6 +3,16 @@ name: Hello Actions
 on:
   push:
   workflow_dispatch:
+    inputs:
+      your_name:
+        description: "Your name"
+        required: true
+        default: "Mehran"
+      message:
+        description: "Message to print"
+        required: true
+        default: "Learning GitHub Actions!"
+
 
 jobs:
   hello:
@@ -10,12 +20,12 @@ jobs:
     steps:
       - name: Checkout repo (download code)
         uses: actions/checkout@v4
+    
+      - name: Print inputs
+        run: |
+          echo "Name: ${{ inputs.your_name }}"
+          echo "Message: ${{ inputs.message }}"
+    
+      - name: Print README title line
+        run: head -n 3 README.md
 
-      - name: Show where we are
-        run: pwd
-
-      - name: List files in the repo
-        run: ls -la
-
-      - name: Print README.md
-        run: cat README.md
