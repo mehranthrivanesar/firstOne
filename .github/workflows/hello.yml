@@ -5,11 +5,11 @@ on:
   workflow_dispatch:
     inputs:
       your_name:
-        description: "Your name"
+        description: "Satan"
         required: true
         default: "Mehran"
       message:
-        description: "Message to print"
+        description: "I changed you"
         required: true
         default: "Learning GitHub Actions!"
 
